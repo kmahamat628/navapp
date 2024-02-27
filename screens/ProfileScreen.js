@@ -1,52 +1,57 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Button, Image, Alert } from 'react-native';
+import ImagePicker from 'react-native-image-picker'; // Import ImagePicker
 
-const ProfileScreen = () => {
+const Profile = () => {
+  const [avatarSource, setAvatarSource] = useState(null);
+
+  const selectImage = () => {
+    const options = {
+      title: 'Select Avatar',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    ImagePicker.showImagePicker(options, (response) => { // Use ImagePicker
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        setAvatarSource(source);
+      }
+    });
+  };
+
+  const uploadImage = () => {
+    // Logic to upload image to server
+    // Once uploaded successfully, update user's profile with new image URL
+    // You may use a library like axios to send a POST request to your server
+    // Ensure you have appropriate backend setup to handle image uploads
+
+    Alert.alert('Image Uploaded!', 'Your profile picture has been updated successfully.');
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.profileHeader}>
-        <Text style={styles.headerText}>Profile</Text>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text style={{ fontSize: 24, marginBottom: 20 }}>Profile</Text>
+      <View style={{ marginBottom: 20 }}>
+        {avatarSource && (
+          <Image
+            source={avatarSource}
+            style={{ width: 200, height: 200, borderRadius: 100 }}
+          />
+        )}
       </View>
-      <View style={styles.profileInfo}>
-        <Text style={styles.infoText}>Name: Khalil Mahamat </Text>
-        <Text style={styles.infoText}>Country: Chad</Text>
-        <Text style={styles.infoText}>Email: khaliltch2202@gmail.com</Text>
-        <Text style={styles.infoText}>Phone: 0791568675</Text>
-        <Text style={styles.infoText}>Job: Student</Text>
-        <Text style={styles.infoText}>University: AUCA</Text>
-
-        
-      </View>
+      <Button title="Select Profile Picture" onPress={selectImage} />
+      <Button title="Upload Picture" onPress={uploadImage} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  profileHeader: {
-    backgroundColor: '#007bff',
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-    alignItems: 'center',
-  },
-  headerText: {
-    fontSize: 24,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  profileInfo: {
-    paddingHorizontal: 20,
-    paddingVertical: 30,
-  },
-  infoText: {
-    fontSize: 18,
-    marginBottom: 10,
-  },
-});
-
-export default ProfileScreen;
+export default Profile;

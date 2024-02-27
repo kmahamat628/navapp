@@ -1,53 +1,32 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Button } from 'react-native';
+import Contacts from 'react-native-contacts';
 
-const ContactScreen = () => {
-  const [contacts, setContacts] = useState([
-    { id: '1', name: 'Iradukunda', phone: '0791543566' },
-    { id: '2', name: 'Khalil Mahamat', phone: '0788909786' },
-    { id: '3', name: 'Alice Johnson', phone: '0791568675' },
-    { id: '4', name: 'Lecturer Jerome', phone: '0788884429' },
-    // Add more contacts as needed
-  ]);
+const ContactList = () => {
+  const [contacts, setContacts] = useState([]);
 
-  const renderContactItem = ({ item }) => (
-    <View style={styles.contactItem}>
-      <Text style={styles.contactName}>{item.name}</Text>
-      <Text style={styles.contactPhone}>{item.phone}</Text>
-    </View>
-  );
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+
+  const fetchContacts = () => {
+    Contacts.getAll((err, fetchedContacts) => {
+      if (err) {
+        console.log('Error fetching contacts: ', err);
+      } else {
+        setContacts(fetchedContacts);
+      }
+    });
+  };
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={contacts}
-        renderItem={renderContactItem}
-        keyExtractor={(item) => item.id}
-      />
+    <View>
+      <Text>Contacts:</Text>
+      {contacts.map(contact => (
+        <Text key={contact.recordID}>{contact.displayName}</Text>
+      ))}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-  contactItem: {
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  contactName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  contactPhone: {
-    fontSize: 16,
-    color: '#666',
-  },
-});
-
-export default ContactScreen;
+export default ContactList;
