@@ -7,7 +7,7 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     // Mock API endpoint for login
-    fetch('https://https://reqres.in/api/login', {
+    fetch('https://virtserver.swaggerhub.com/KHALILTCH2202/NavApp/1.0.0', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

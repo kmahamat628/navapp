@@ -5,7 +5,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to Home Screen</Text>
-      <Text style={styles.description}>This is the home screen of Khalils'App.</Text>
+      <Text style={styles.description}>This is the home screen of NavApp.</Text>
       
     </View>
   );

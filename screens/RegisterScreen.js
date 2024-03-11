@@ -7,7 +7,7 @@ const RegistrationScreen = () => {
 
   const handleRegister = () => {
     // Mock API endpoint for registration
-    fetch('https:example.com/register', {
+    fetch('https://virtserver.swaggerhub.com/KHALILTCH2202/NavApp/1.0.0', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
